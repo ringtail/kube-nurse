@@ -1,2 +1,5 @@
 # kube-nurse
-kube-nurse is a kubernetes system diagnostic tool.
+kube-nurse is a kubernetes system diagnostic tool. Command `kubectl cluster-info dump` can dump many useful information about the cluster.But the content isn't very friendly for human reading. kube-nurse can split the whole content into seperate files and analysis key words about the core component of kubernetes. 
+
+### *License*
+This software is released under the Apache 2.0 license.
