@@ -1,7 +1,5 @@
 # kube-nurse
-<center>
-   <img width="200px" src="https://kube-nurse.oss-cn-beijing.aliyuncs.com/kube-nurse.png"/>
-</center>
+<img width="200px" style="display:block;margin:0 auto" src="https://kube-nurse.oss-cn-beijing.aliyuncs.com/kube-nurse.png"/>
 kube-nurse is a kubernetes system diagnostic tool. Command <b>kubectl cluster-info dump</b> can dump many useful information about the cluster.But the content isn't very friendly for human reading. kube-nurse can split the whole content into seperate files and analysis key words about the core component of kubernetes. 
 
 ### *License*
