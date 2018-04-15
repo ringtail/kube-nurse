@@ -2,6 +2,7 @@ package log
 
 import (
 	"github.com/ringtail/kube-nurse/types"
+	"fmt"
 )
 
 type KeywordsScalpel struct {
@@ -19,5 +20,6 @@ func (ks *KeywordsScalpel) Fit(symptom *types.Symptom) bool {
 }
 
 func (ks *KeywordsScalpel) Cut(symptom *types.Symptom) error {
+	fmt.Println("scalpel has handled symptom: " + symptom.Type)
 	return nil
 }
