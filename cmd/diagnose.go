@@ -3,13 +3,15 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	log "github.com/Sirupsen/logrus"
-	"k8s.io/apimachinery/pkg/apis/meta/v1"
+	//"k8s.io/apimachinery/pkg/apis/meta/v1"
 	"strings"
 	"os"
 	"path"
 	"bufio"
 	"io"
 	"fmt"
+	"github.com/ringtail/kube-nurse/scalpels"
+	"github.com/ringtail/kube-nurse/types"
 )
 
 const (
@@ -108,9 +110,36 @@ func DiagnoseClusterDump(file_path string) (err error) {
 }
 
 func JsonLinesHandler(lines []string) {
-
+	fmt.Println(lines[0], lines[len(lines)-1])
 }
 
 func LogLinesHandler(lines []string) {
+	first_line := lines[0]
+	if component_name := getComponentNameFromFirstLine(first_line); component_name != "" {
+		scalpel := scalpels.OneScapelBox.FindScalpelByName(component_name)
+		sm := &types.Symptom{
+			Type:    "Log",
+			Content: lines,
+		}
+		if scalpel != nil {
+			go func(symptom *types.Symptom) {
+				err := scalpel.Cut(symptom)
+				if err != nil {
+					fmt.Printf("Failed to diagnose symptom with %s scalpel", scalpel.Name())
+				}
+			}(sm)
+		}
+	}
 	fmt.Println(lines[0], lines[len(lines)-1])
+	
+}
+
+func getComponentNameFromFirstLine(line string) string {
+	words := strings.Split(line, " ")
+	for i := 0; i < len(words); i++ {
+		if words[i] == "container" && i+2 < len(words) && words[i+2] == "of" {
+			return words[i+1]
+		}
+	}
+	return ""
 }
