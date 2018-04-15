@@ -125,13 +125,12 @@ func LogLinesHandler(lines []string) {
 			go func(symptom *types.Symptom) {
 				err := scalpel.Cut(symptom)
 				if err != nil {
-					fmt.Printf("Failed to diagnose symptom with %s scalpel", scalpel.Name())
+					fmt.Printf("Failed to diagnose symptom with %s scalpel\n", scalpel.Name())
 				}
 			}(sm)
 		}
 	}
-	fmt.Println(lines[0], lines[len(lines)-1])
-	
+	//fmt.Println(lines[0], lines[len(lines)-1])
 }
 
 func getComponentNameFromFirstLine(line string) string {

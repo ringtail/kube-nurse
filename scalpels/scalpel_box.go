@@ -10,7 +10,15 @@ var OneScapelBox *ScalpelBox
 func init() {
 	OneScapelBox = &ScalpelBox{}
 	OneScapelBox.scalpels = make(map[string]types.Scalpel, 0)
-	OneScapelBox.AddScalpel(&log.KubeApiServerScalpel{})
+	OneScapelBox.AddScalpel(log.NewKubeApiServerScalpel())
+	OneScapelBox.AddScalpel(log.NewCloudControllerManagerScalpel())
+	OneScapelBox.AddScalpel(log.NewHeapsterScalpel())
+	OneScapelBox.AddScalpel(log.NewKubeControllerManagerScalpel())
+	OneScapelBox.AddScalpel(log.NewKubeDnsScalpel())
+	OneScapelBox.AddScalpel(log.NewKubeFlannelScalpel())
+	OneScapelBox.AddScalpel(log.NewKubeProxyMasterScalpel())
+	OneScapelBox.AddScalpel(log.NewKubeProxyWorkerScalpel())
+	OneScapelBox.AddScalpel(log.NewKubeSchedulerScalpel())
 }
 
 type ScalpelBox struct {
