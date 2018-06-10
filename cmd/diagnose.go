@@ -3,7 +3,6 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	log "github.com/Sirupsen/logrus"
-	//"k8s.io/apimachinery/pkg/apis/meta/v1"
 	"strings"
 	"os"
 	"path"
@@ -110,7 +109,14 @@ func DiagnoseClusterDump(file_path string) (err error) {
 }
 
 func JsonLinesHandler(lines []string) {
-	fmt.Println(lines[0], lines[len(lines)-1])
+	sm := &types.Symptom{
+		Type:    "Json",
+		Content: lines,
+	}
+	scapel := scalpels.OneScapelBox.FindScalpelByName("Json")
+	if scapel != nil {
+		scapel.Cut(sm)
+	}
 }
 
 func LogLinesHandler(lines []string) {

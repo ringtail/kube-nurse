@@ -3,6 +3,7 @@ package scalpels
 import (
 	"github.com/ringtail/kube-nurse/types"
 	"github.com/ringtail/kube-nurse/scalpels/log"
+	"github.com/ringtail/kube-nurse/scalpels/store"
 )
 
 var OneScapelBox *ScalpelBox
@@ -19,6 +20,7 @@ func init() {
 	OneScapelBox.AddScalpel(log.NewKubeProxyMasterScalpel())
 	OneScapelBox.AddScalpel(log.NewKubeProxyWorkerScalpel())
 	OneScapelBox.AddScalpel(log.NewKubeSchedulerScalpel())
+	OneScapelBox.AddScalpel(store.NewJsonScapel())
 }
 
 type ScalpelBox struct {
