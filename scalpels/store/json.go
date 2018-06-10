@@ -6,6 +6,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 	"strings"
 	"encoding/json"
+	"github.com/ringtail/kube-nurse/summary"
 )
 
 const (
@@ -64,14 +65,16 @@ func HandleList(list *ListItemMeta) error {
 		if err != nil {
 			log.Errorf("Failed to diagnose nodes,because of %s\n", err.Error())
 		} else {
-			log.Infof("normal %d,warning %d,error %d", len(nodeSummary.NormalItems), len(nodeSummary.WarningItems), len(nodeSummary.ErrorItems))
+			summary.AddNodeSummary(nodeSummary)
 		}
+
 	case ReplicaSets:
 		replicasetSummary, err := HandleReplicasetList(list.Items)
 		if err != nil {
 			log.Errorf("Failed to diagnose replicasets,because of %s\n", err.Error())
 		} else {
-			log.Infof("normal %d,warning %d,error %d", len(replicasetSummary.NormalItems), len(replicasetSummary.WarningItems), len(replicasetSummary.ErrorItems))
+			//log.Infof("normal %d,warning %d,error %d", len(replicasetSummary.NormalItems), len(replicasetSummary.WarningItems), len(replicasetSummary.ErrorItems))
+			summary.AddApplicationSummary(ReplicaSets, GetNamesapcesFromSelflink(list.GetSelfLink()), replicasetSummary)
 		}
 	}
 	return nil
@@ -83,4 +86,14 @@ func SymptomContentToBytes(content []string) []byte {
 		jsonString += strings.Trim(line, "\n")
 	}
 	return []byte(jsonString)
+}
+
+func GetNamesapcesFromSelflink(selfLink string) string {
+	arr := strings.Split(selfLink, "/")
+	for index, item := range arr {
+		if item == "namespaces" {
+			return arr[index+1]
+		}
+	}
+	return ""
 }

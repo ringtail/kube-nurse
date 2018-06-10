@@ -43,8 +43,9 @@ func HandleReplicasetList(replicasets []interface{}) (replicasetSummary *summary
 		if err != nil {
 			continue
 		}
+
 		rn := &summary.ResourceItem{
-			Name:      replicaset.GetName(),
+			Name:      rt["name"].(string),
 			Namespace: replicaset.GetNamespace(),
 			Healthy:   true,
 		}

@@ -7,7 +7,7 @@ import (
 )
 
 type Summary interface {
-	Info() ResourceSummary
+	Info() *ResourceSummary
 }
 
 type Item interface {
@@ -50,6 +50,13 @@ type ResourceSummary struct {
 	ErrorItems   []Item
 }
 
-func (rs *ResourceSummary) Info() {
+func (rs *ResourceSummary) Info() *ResourceSummary {
+	return rs
+}
 
+func (rs *ResourceSummary) Merge(s Summary) {
+	sy := s.Info()
+	rs.NormalItems = append(rs.NormalItems, sy.NormalItems...)
+	rs.WarningItems = append(rs.WarningItems, sy.WarningItems...)
+	rs.ErrorItems = append(rs.ErrorItems, sy.ErrorItems...)
 }

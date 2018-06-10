@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"github.com/ringtail/kube-nurse/scalpels"
 	"github.com/ringtail/kube-nurse/types"
+	"github.com/ringtail/kube-nurse/summary"
 )
 
 const (
@@ -105,6 +106,7 @@ func DiagnoseClusterDump(file_path string) (err error) {
 		return
 	}
 
+	summary.GetSummaryManager().DumpDetails()
 	return nil
 }
 
