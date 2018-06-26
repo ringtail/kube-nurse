@@ -76,6 +76,8 @@ func HandleList(list *ListItemMeta) error {
 			//log.Infof("normal %d,warning %d,error %d", len(replicasetSummary.NormalItems), len(replicasetSummary.WarningItems), len(replicasetSummary.ErrorItems))
 			summary.AddApplicationSummary(ReplicaSets, GetNamesapcesFromSelflink(list.GetSelfLink()), replicasetSummary)
 		}
+	case Deployments:
+
 	}
 	return nil
 }
